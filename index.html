@@ -1,0 +1,279 @@
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+
+
+	</head>
+	<body>
+		<h1>Reaction Time Test</h1>
+		<p id = "description">A circle will appear in the box below. Click on it as fast as you can.</p>
+		<p id = "description2"></p>
+
+		<b> <p id="printReactionTime">Click on the green square below to start.</p> </b>
+
+		<!-- <h2 id="result"></h2> -->
+
+		<p id = "followUp" style="font-size: 25px"></p>
+
+		<div id = "container" style = "position: relative;">
+			<div id="start"></div>
+			<div id="fakebox1" style = "border-radius: 0%; position: absolute;"></div>
+			<div id="fakebox2" style = "border-radius: 0%; position: absolute;"></div>
+			<div id="fakebox3" style = "border-radius: 0%; position: absolute;"></div>
+			<div id="box" style = "border-radius: 100%; position: absolute;"></div>
+		</div>
+
+
+
+	</body>
+
+
+	<style type="text/css">
+		body {
+			font-family: Verdana, Geneva, sans-serif;
+		}
+
+		#box {
+			width: 100px;
+			height: 100px;
+			background-color: blue;
+			display: none;
+			position: relative; 
+			border: 1px solid black;
+		}
+
+		#fakebox1 {
+			width: 100px;
+			height: 100px;
+			background-color: blue;
+			display: none;
+			position: relative; 
+			border: 1px solid black;
+		}
+
+		#fakebox2 {
+			width: 80px;
+			height: 80px;
+			background-color: blue;
+			display: none;
+			position: relative; 
+			border: 1px solid black;
+		}
+
+		#fakebox3 {
+			width: 75px;
+			height: 75px;
+			background-color: blue;
+			display: none;
+			position: relative; 
+			border: 1px solid black;
+		}
+
+		#start {
+			width: 100px;
+			height: 100px;
+			background-color: green;
+			position: relative; 
+		}
+
+		#container {
+			border: 2px solid black;
+			width: 800px;
+			height: 600px;
+		}
+
+	</style>
+
+	<script type="text/javascript">
+
+		var numTrials = 10;
+		var count = 0;
+
+		treatment = Math.round(Math.random()) == 0 ? "A" : "B";
+
+		document.getElementById("start").style.top = "250px";
+		document.getElementById("start").style.left = "350px"; 
+
+		document.getElementById("description").innerHTML="A blue circle will appear in the box below. Click on it as fast as you can. It will appear " + (numTrials - count) + " times.";
+		document.getElementById("description2").innerHTML="<br>";
+
+		document.getElementById("container").style.backgroundColor = "#ffffff"
+
+		console.log(treatment)
+
+		function getRandomColor() {
+
+			var letters = "0123456789ABCDEF".split('');
+			var color = "#";
+			for (var i = 0; i < 3; i++) {
+				color += letters[Math.round(Math.random() * 15)];
+			} //ends for loop 
+			return color; 
+
+
+		}
+
+		if (treatment == "B") {
+			document.getElementById("description").innerHTML="A blue circle, and other objects, will appear in the box below. Click on the blue circle as fast as you can. It will appear " + (numTrials - count) + " times.";
+			document.getElementById("description2").innerHTML="<em>Only click on the blue circle. Ignore everything else.<em>";
+		}
+
+		document.getElementById("start").onclick=function() {
+
+			if (treatment == "B") {
+				setInterval(function() {
+				
+					document.getElementById("container").style.backgroundColor = getRandomColor();
+					
+				}, Math.random() * 500 + 500);
+
+				setInterval(function() { // Fakebox 1 (normal sized square, random color)
+
+					var faketop = Math.random();
+					faketop = faketop * 500;
+					var fakeleft = Math.random();
+					fakeleft = fakeleft * 700; 
+
+					document.getElementById("fakebox1").style.top = faketop + "px";
+					document.getElementById("fakebox1").style.left = fakeleft + "px"; 
+					document.getElementById("fakebox1").style.backgroundColor = getRandomColor();
+					document.getElementById("fakebox1").style.display="block";
+					
+				}, Math.random() * 1500 + 750);
+
+				setInterval(function() { // Fakebox 2 (smaller sized square, same color)
+
+					var faketop = Math.random();
+					faketop = faketop * 500;
+					var fakeleft = Math.random();
+					fakeleft = fakeleft * 700; 
+
+					document.getElementById("fakebox2").style.top = faketop + "px";
+					document.getElementById("fakebox2").style.left = fakeleft + "px";
+					document.getElementById("fakebox2").style.display="block";
+			
+				}, Math.random() * 1500 + 750);
+
+				setInterval(function() { // Fakebox 3 (smallest sized square, random color, random border radius)
+
+					var faketop = Math.random();
+					faketop = faketop * 500;
+					var fakeleft = Math.random();
+					fakeleft = fakeleft * 700; 
+
+					document.getElementById("fakebox3").style.top = faketop + "px";
+					document.getElementById("fakebox3").style.left = fakeleft + "px";
+					document.getElementById("fakebox3").style.backgroundColor = getRandomColor();
+					document.getElementById("fakebox3").style.display="block";
+					document.getElementById("fakebox3").style.borderRadius = Math.random() * 100 + "%";
+
+					document.getElementById("container").style.backgroundColor = getRandomColor();
+
+			
+				}, Math.random() * 1500 + 750);
+
+			}
+
+			this.style.display="none";
+
+			document.getElementById("printReactionTime").innerHTML="Average Reaction Time: ";
+			
+
+			var clickedTime; var createdTime; var reactionTime; 
+
+
+			function makeBox() {
+
+				var time = Math.random();
+
+				time = 500 + time * 3500;
+
+				if (count < numTrials) {
+
+					setTimeout(function() {
+
+						/*
+						if (Math.random()>0.5) {
+
+						document.getElementById("box").style.borderRadius="100px";
+
+						} else {
+
+						document.getElementById("box").style.borderRadius="0";
+						}
+						*/
+
+
+						var top= Math.random();
+						top = top * 500;
+						var left= Math.random();
+						left = left * 700; 
+
+						document.getElementById("box").style.top = top + "px";
+						document.getElementById("box").style.left = left + "px"; 
+
+						//document.getElementById("box").style.backgroundColor=getRandomColor();
+
+						document.getElementById("box").style.display="block";
+
+						createdTime=Date.now();
+
+					}, time); 
+
+					var backgroundTime = Math.random();
+					backgroundTime = 500 + backgroundTime * 1500;
+
+				}
+
+			else {
+				document.getElementById("container").style.border = "0px solid black";
+				document.getElementById("container").style.display = "none";
+				document.getElementById("printReactionTime").style.display = "none";
+				//document.getElementById("result").innerHTML="Final Reaction Time: " + parseFloat(meanReactionTime.toFixed(3));
+				document.getElementById("followUp").innerHTML="On the form, please enter:<br>-  Final Reaction Time: <b>" + parseFloat(meanReactionTime.toFixed(3)) + "</b><br>-  Treatment: <b>" + treatment + "</b>";
+			}
+
+			}
+
+			reactionTimes = [];
+			totalReactionTime = 0;
+
+
+			document.getElementById("box").onclick=function() {
+
+				count++;
+
+				clickedTime=Date.now();
+
+				reactionTime=(clickedTime-createdTime)/1000;
+
+				reactionTimes.push(reactionTime);
+
+				totalReactionTime += reactionTime;
+
+				meanReactionTime = totalReactionTime / count;
+
+				document.getElementById("printReactionTime").innerHTML="Average Reaction Time: " + parseFloat(meanReactionTime.toFixed(3));
+
+				document.getElementById("description").innerHTML="A blue circle will appear in the box below. Click on it as fast as you can. It will appear " + (numTrials - count) + " more times.";
+
+				this.style.display="none";
+
+				makeBox();
+
+
+			}
+
+			makeBox(); 
+
+
+		}
+
+		
+
+		</script>
+
+		</html>
